@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"git.ng.bluemix.net/ageiger/kafka-test/pkg/kafka/producer"
+	"github.com/argeiger/kafka-test/pkg/kafka/producer"
 )
 
 func init() {

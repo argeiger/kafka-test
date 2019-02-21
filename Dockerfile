@@ -2,7 +2,7 @@ FROM golang:1.10.5-stretch
 
 ENV LIBRDKAFKA_VERSION 0.11.5
 
-ADD . /go/src/git.ng.bluemix.net/ageiger/kafka-test
+ADD . /go/src/github.com/argeiger/kafka-test
 
 RUN apt-get -y update \
   && apt-get install -y upx-ucl zip libssl-dev libsasl2-dev ca-certificates wget jq zip
