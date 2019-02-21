@@ -13,9 +13,9 @@ RUN curl -Lk -o /root/librdkafka-${LIBRDKAFKA_VERSION}.tar.gz https://github.com
   ./configure --prefix /usr && make && make install && make clean && ./configure --clean
 
 RUN apt-get update \
-  && cd /go/src/git.ng.bluemix.net/ageiger/kafka-test \
+  && cd /go/src/github.com/argeiger/kafka-test \
   && CGO_ENABLED=1 make build/kafka-test \
-  && ln -s /go/src/git.ng.bluemix.net/ageiger/kafka-test/build/kafka-test /kafka-test \
+  && ln -s /go/src/github.com/argeiger/kafka-test/build/kafka-test /kafka-test \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
