@@ -1,0 +1,61 @@
+{{- if .Values.producer.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "kafka-test.fullname" . }}-producer
+  labels:
+    app: {{ template "kafka-test.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "kafka-test.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+{{- if .Values.imagePullSecrets }}
+      {{- range .Values.imagePullSecrets }}
+      - name: {{ .name }}
+      {{- end }}
+{{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [ "producer", "{{ .Values.producer.topics }}", "--debug", "--brokers={{ .Values.brokers }}", "--msg={{ .Values.producer.message }}" ]
+{{- end }}
+---
+{{- if .Values.consumer.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "kafka-test.fullname" . }}-consumer
+  labels:
+    app: {{ template "kafka-test.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "kafka-test.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+{{- if .Values.imagePullSecrets }}
+      {{- range .Values.imagePullSecrets }}
+      - name: {{ .name }}
+      {{- end }}
+{{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [ "consumer", "{{ .Values.consumer.topics }}", "{{ .Values.consumer.groupID }}", "--debug", "--brokers={{ .Values.brokers }}" ]
+{{- end }}

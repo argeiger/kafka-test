@@ -1,0 +1,20 @@
+brokers: "169.46.63.252:32413"
+debug: true
+replicaCount: 1
+
+producer:
+  enabled: true
+  message: "Hello, World!!"
+  topics: "testTopic1,testTopic2"
+
+consumer:
+  enabled: true
+  topics: "testTopic1,testTopic2"
+  groupID: "testGroup"
+
+image:
+  repository: lilchomper/kafka-test
+  tag: dev
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
